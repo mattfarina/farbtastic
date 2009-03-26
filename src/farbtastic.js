@@ -174,7 +174,7 @@ $._farbtastic = function (container, options) {
           grad.addColorStop(1, color2);
           m.fillStyle = grad;
           // Draw quadratic curve segment as a fill.
-          var r1 = (r + w / 2) / r, r2 = (r - w / 2) / r;
+          var r1 = (r + w / 2) / r, r2 = (r - w / 2) / r; // inner/outer radius.
           m.beginPath();
           m.moveTo(x1 * r1, y1 * r1);
           m.quadraticCurveTo(xm * r1, ym * r1, x2 * r1, y2 * r1);
@@ -226,6 +226,7 @@ $._farbtastic = function (container, options) {
  
     // Method #1: direct pixel access (new Canvas).
     if (fb.ctxMask.getImageData) {
+      // Create half-resolution buffer.
       var sz = Math.floor(size / 2);
       var buffer = document.createElement('canvas');
       buffer.width = buffer.height = sz + 1;
@@ -243,6 +244,7 @@ $._farbtastic = function (container, options) {
     }
     // Method #2: drawing commands (old Canvas).
     else if (!$.browser.msie) {
+      // Render directly at half-resolution
       var sz = Math.floor(size / 2);
       calculateMask(sz, sz, function (x, y, c, a) {
         c = Math.round(c * 255);
