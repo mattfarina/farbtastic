@@ -156,7 +156,7 @@ $._farbtastic = function (container, options) {
           // Endpoints
           x1 = Math.sin(angle1), y1 = -Math.cos(angle1);
           x2 = Math.sin(angle2), y2 = -Math.cos(angle2),
-          // Midpoint
+          // Midpoint chosen so that the endpoints are tangent to the circle.
           am = (angle1 + angle2) / 2,
           tan = 1 / Math.cos((angle2 - angle1) / 2),
           xm = Math.sin(am) * tan, ym = -Math.cos(am) * tan,
@@ -164,7 +164,7 @@ $._farbtastic = function (container, options) {
           color2 = fb.pack(fb.HSLToRGB([d2, 1, 0.5]));
       if (i > 0) {
         if ($.browser.msie) {
-          // IE's gradient calculations mess up the colors. Correct more along the diagonals.
+          // IE's gradient calculations mess up the colors. Correct along the diagonals.
           var corr = (1 + Math.min(Math.abs(Math.tan(angle1)), Math.abs(Math.tan(Math.PI / 2 - angle1)))) / n;
           color1 = fb.pack(fb.HSLToRGB([d1 - 0.15 * corr, 1, 0.5]));
           color2 = fb.pack(fb.HSLToRGB([d2 + 0.15 * corr, 1, 0.5]));
@@ -290,10 +290,11 @@ $._farbtastic = function (container, options) {
    * Draw the selection markers.
    */
   fb.drawMarkers = function () {
-    var sz = options.width, lw = Math.ceil(fb.markerSize / 4), r = fb.markerSize - lw;
+    // Clear marker overlay.
     fb.ctxOverlay.clearRect(-fb.mid, -fb.mid, sz, sz);
-    fb.ctxOverlay.lineWidth = lw;
 
+    // Determine marker dimensions
+    var sz = options.width, lw = Math.ceil(fb.markerSize / 4), r = fb.markerSize - lw + 1;
     var angle = fb.hsl[0] * 6.28,
         x1 =  Math.sin(angle) * fb.radius,
         y1 = -Math.cos(angle) * fb.radius,
@@ -302,13 +303,15 @@ $._farbtastic = function (container, options) {
         c1 = fb.invert ? '#fff' : '#000',
         c2 = fb.invert ? '#000' : '#fff';
     var circles = [
-      { x: x1, y: y1, r: fb.markerSize, c: '#fff' },
-      { x: x1, y: y1, r: r,             c: '#000' },
-      { x: x2, y: y2, r: fb.markerSize, c: c1 },
-      { x: x2, y: y2, r: r,             c: c2 },
+      { x: x1, y: y1, r: r,             c: '#000', lw: lw + 1 },
+      { x: x1, y: y1, r: fb.markerSize, c: '#fff', lw: lw },
+      { x: x2, y: y2, r: r,             c: c2,     lw: lw + 1 },
+      { x: x2, y: y2, r: fb.markerSize, c: c1,     lw: lw },
     ];
+
     for (i in circles) {
       var c = circles[i];
+      fb.ctxOverlay.lineWidth = c.lw;
       fb.ctxOverlay.strokeStyle = c.c;
       fb.ctxOverlay.beginPath();
       fb.ctxOverlay.arc(c.x, c.y, c.r, 0, Math.PI * 2, true);
