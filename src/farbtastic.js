@@ -290,9 +290,6 @@ $._farbtastic = function (container, options) {
    * Draw the selection markers.
    */
   fb.drawMarkers = function () {
-    // Clear marker overlay.
-    fb.ctxOverlay.clearRect(-fb.mid, -fb.mid, sz, sz);
-
     // Determine marker dimensions
     var sz = options.width, lw = Math.ceil(fb.markerSize / 4), r = fb.markerSize - lw + 1;
     var angle = fb.hsl[0] * 6.28,
@@ -309,6 +306,8 @@ $._farbtastic = function (container, options) {
       { x: x2, y: y2, r: fb.markerSize, c: c1,     lw: lw },
     ];
 
+    // Update the overlay canvas.
+    fb.ctxOverlay.clearRect(-fb.mid, -fb.mid, sz, sz);
     for (i in circles) {
       var c = circles[i];
       fb.ctxOverlay.lineWidth = c.lw;
