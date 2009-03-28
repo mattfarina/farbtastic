@@ -106,8 +106,9 @@ $._farbtastic = function (container, options) {
       $(this).before($(e).attr(attr)).remove();
       // Init with explorerCanvas.
       G_vmlCanvasManager && G_vmlCanvasManager.initElement(e);
-      // Set explorerCanvas elements to absolute positioning.
-      $(e).css('position', 'absolute')
+      // Set explorerCanvas elements dimensions and absolute positioning.
+      $(e).attr(dim).css(dim).css('position', 'absolute')
+        .find('*').attr(dim).css(dim);
     });
 
     // Determine layout
