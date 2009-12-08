@@ -3,17 +3,11 @@
  * http://code.google.com/p/farbtastic
  * Copyright (c) Steven Wittens
  * Licensed under the GPL version 2.
- * Date: xxxx-xx-xx
 */
 (function($) {
 
 $.fn.farbtastic = function (options) {
   $.farbtastic(this, options);
-  return this;
-};
-
-$.farbtastic = function (callback) {
-  $.farbtastic(this, callback);
   return this;
 };
 
