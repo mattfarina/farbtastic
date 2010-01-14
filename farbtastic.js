@@ -1,9 +1,3 @@
-/*
- * Farbtastic v1.3
- * http://code.google.com/p/farbtastic
- * Copyright (c) Steven Wittens
- * Licensed under the GPL version 2.
-*/
 (function($) {
 
 $.fn.farbtastic = function (options) {
