@@ -4,7 +4,7 @@ Farbtastic is a [jQuery](http://jquery.com/) plug-in that can add one or more co
 
 Farbtastic uses layered transparent PNGs to render a saturation/luminance gradient inside of a hue circle. No Flash or pixel-sized divs are used.
 
-Farbtastic was written by [Steven Wittens](http://acko.net/) and is licensed under the GPL.
+Farbtastic was originally written by [Steven Wittens](http://acko.net/) and is licensed under the GPL.
 
 Basic Usage
 -----------
