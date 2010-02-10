@@ -71,3 +71,25 @@ The optional `callback` argument behaves exactly as for the jQuery method.
   Current color in hex representation.
 `.hsl`
   Current color in normalized HSL.
+
+Changelog
+---------
+
+### 1.3 - 2010/xx/xx
+
+* Updated style to use anonymous function wrapper per http://docs.jquery.com/Plugins/Authoring#Custom_Alias.
+* Now it uses the `.offset()` method available as of jQuery 1.2.x.
+* Works with JavaScript aggregators and compressors.
+
+### 1.2 - 2007/01/08</h2>
+
+* Fixed bug with linking multiple fields with the same value.
+
+### 1.1 - 2006/10/27
+
+* Work around for the transparent PNGs in Internet Explorer.
+* Better mouse handling code to accomodate CSS-based layouts better.
+
+### 1.0 - 2006/07/14
+
+* Initial release.
