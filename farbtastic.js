@@ -1,3 +1,9 @@
+/*!
+ * Farbtastic: jQuery color picker plug-in
+ *
+ * Licensed under the GPL license:
+ *   http://www.gnu.org/licenses/gpl.html
+ */
 (function($) {
 
 $.fn.farbtastic = function (options) {
