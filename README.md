@@ -14,7 +14,7 @@ Basic Usage
 
 1. Include farbtastic.js in your HTML:
 
-`<script type="text/javascript" src="farbtastic.js"></script>`
+     <script type="text/javascript" src="farbtastic.js"></script>
 
 2. Add a placeholder div and a text field to your HTML, and give each an ID:
 
