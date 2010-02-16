@@ -12,22 +12,22 @@ Farbtastic was originally written by [Steven Wittens](http://acko.net/) and is l
 Basic Usage
 -----------
 
-1. Include farbtastic.js in your HTML:
+1) Include farbtastic.js in your HTML:
 
      <script type="text/javascript" src="farbtastic.js"></script>
 
-2. Add a placeholder div and a text field to your HTML, and give each an ID:
+2) Add a placeholder div and a text field to your HTML, and give each an ID:
 
-`<form><input type="text" id="color" name="color" value="#123456" /></form>
-<div id="colorpicker"></div>`
+    <form><input type="text" id="color" name="color" value="#123456" /></form>
+    <div id="colorpicker"></div>
 
-3. Add a `ready()` handler to the document which initializes the color picker and link it to the text field with the following syntax:
+3) Add a `ready()` handler to the document which initializes the color picker and link it to the text field with the following syntax:
 
-`<script type="text/javascript">
-  $(document).ready(function() {
-    $('#colorpicker').farbtastic('#color');
-  });
-</script>`
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#colorpicker').farbtastic('#color');
+      });
+    </script>
 
 See demo/test.html for an example.
 
@@ -69,28 +69,16 @@ An example usage would be `$(...).farbtastic({ callback: '#color2', width: 150 }
 
 ### Methods
 
-`.linkTo(callback)`
+`.linkTo(callback)` - Allows you to set a new callback. Any existing callbacks are removed. See above for the meaning of callback.
 
-  Allows you to set a new callback. Any existing callbacks are removed. See above for the meaning of callback.
+`.setColor(string)` - Sets the picker color to the given color in hex representation.
 
-`.setColor(string)`
-
-  Sets the picker color to the given color in hex representation.
-
-`.setColor([h, s, l])`
-
-  Sets the picker color to the given color in normalized HSL (0..1 scale).
+`.setColor([h, s, l])` - Sets the picker color to the given color in normalized HSL (0..1 scale).
 
 ### Properties
 
-`.linked`
+`.linked` - The elements (jQuery object) or callback function this picker is linked to.
 
-  The elements (jQuery object) or callback function this picker is linked to.
+`.color` - Current color in hex representation.
 
-`.color`
-
-  Current color in hex representation.
-
-`.hsl`
-
-  Current color in normalized HSL.
+`.hsl` - Current color in normalized HSL.
