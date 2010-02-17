@@ -77,7 +77,7 @@ The optional `callback` argument behaves exactly as for the jQuery method.
 Changelog
 ---------
 
-### 1.3 - 2010/xx/xx
+### 1.3u (unofficial) - 2010/2/17
 
 * Updated style to use anonymous function wrapper per http://docs.jquery.com/Plugins/Authoring#Custom_Alias.
 * Now it uses the `.offset()` method available as of jQuery 1.2.x.
