@@ -81,6 +81,7 @@ $._farbtastic = function (container, options) {
     if (!c.getContext) { // excanvas hack
         c = window.G_vmlCanvasManager.initElement(c);
         c.getContext(); //this creates the excanvas children
+        fb.usingExCanvas = true;
     }
     $(c).addClass(className);
     return c;
@@ -164,7 +165,7 @@ $._farbtastic = function (container, options) {
           // New color
           color2 = fb.pack(fb.HSLToRGB([d2, 1, 0.5]));
       if (i > 0) {
-        if ($.browser.msie) {
+        if (fb.usingExCanvas) {
           // IE's gradient calculations mess up the colors. Correct along the diagonals.
           var corr = (1 + Math.min(Math.abs(Math.tan(angle1)), Math.abs(Math.tan(Math.PI / 2 - angle1)))) / n;
           color1 = fb.pack(fb.HSLToRGB([d1 - 0.15 * corr, 1, 0.5]));
@@ -244,7 +245,7 @@ $._farbtastic = function (container, options) {
       fb.ctxMask.drawImage(buffer, 0, 0, sz + 1, sz + 1, -sq, -sq, sq * 2, sq * 2);
     }
     // Method #2: drawing commands (old Canvas).
-    else if (!$.browser.msie) {
+    else if (fb.usingExCanvas) {
       // Render directly at half-resolution
       var sz = Math.floor(size / 2);
       calculateMask(sz, sz, function (x, y, c, a) {
@@ -496,6 +497,8 @@ $._farbtastic = function (container, options) {
     wheelWidth: (options.width || 300) / 10,
     callback: null
   }, options);
+
+  fb.usingExCanvas = false;
 
   // Initialize.
   fb.initWidget();
