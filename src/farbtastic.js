@@ -417,7 +417,7 @@ $._farbtastic = function (container, options) {
     $(document).unbind('mouseup', fb.mouseup);
     $._farbtastic.dragging = false;
   }
-
+  
   /* Various color utility functions */
   fb.dec2hex = function (x) {
     return (x < 16 ? '0' : '') + x.toString(16);
@@ -488,6 +488,40 @@ $._farbtastic = function (container, options) {
     }
     return [h, s, l];
   };
+  
+  // Touch support
+  $.extend($.support, {
+    touch: typeof Touch == "object"
+  });
+  
+  /**
+   * Simulate mouse events for touch devices
+   */
+  fb.touchHandle = function (event) {
+    var touches = event.originalEvent.changedTouches,
+        firstTouch = touches[0],
+        type = "";
+        
+    switch(event.type) {
+        case 'touchstart': type = 'mousedown'; break;
+        case 'touchmove':  type='mousemove'; break;        
+        case 'touchend':   type='mouseup'; break;
+        default: return;
+    }
+
+    //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+    //           screenX, screenY, clientX, clientY, ctrlKey, 
+    //           altKey, shiftKey, metaKey, button, relatedTarget);
+
+    var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+                              firstTouch.screenX, firstTouch.screenY, 
+                              firstTouch.clientX, firstTouch.clientY, false, 
+                              false, false, false, 0/*left*/, null);
+
+    firstTouch.target.dispatchEvent(simulatedEvent);
+    event.preventDefault();
+  }
 
   // Parse options.
   if (!options.callback) {
@@ -504,7 +538,10 @@ $._farbtastic = function (container, options) {
 
   // Install mousedown handler (the others are set on the document on-demand)
   $('canvas.farbtastic-overlay', container).mousedown(fb.mousedown);
-
+  
+  // Install touch handlers to simulate appropriate mouse events
+  if ($.support.touch) $('canvas.farbtastic-overlay', container).bind('touchstart touchmove touchend touchcancel', fb.touchHandle);
+  
   // Set linked elements/callback
   if (options.callback) {
     fb.linkTo(options.callback);
