@@ -6,6 +6,8 @@
  */
 (function($) {
 
+var triggerChangeDelay = 200;
+
 $.fn.farbtastic = function (options) {
   $.farbtastic(this, options);
   return this;
@@ -190,7 +192,14 @@ $._farbtastic = function (container, callback) {
       // Change linked value
       $(fb.callback).each(function() {
         if (this.value && this.value != fb.color) {
+          var element = $(this);
           this.value = fb.color;
+          if(fb.triggerChange) {
+            clearInterval(fb.triggerChange);
+          }
+          fb.triggerChange = setTimeout(function() {
+            element.trigger("change");
+          }, triggerChangeDelay);
         }
       });
     }
