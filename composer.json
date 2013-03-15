@@ -1,0 +1,9 @@
+{
+  "name": "mattfarina/farbtastic",
+  "description": "jQuery Color Wheel",
+  "type": "component",
+  "license": "GPL-2.0",
+  "require": {
+    "components/jquery": ">=1.4.2"
+  }
+}
