@@ -9,7 +9,7 @@
     "src/farbtastic.js"
   ],
   "dependencies": {
-    "components/jquery": "*"
+    "jquery": "*"
   },
   "license": "GPL-2.0"
 }
