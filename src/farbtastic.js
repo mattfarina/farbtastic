@@ -349,7 +349,7 @@ $._farbtastic = function (container, options) {
         if ((typeof this.value == 'string') && this.value != fb.color) {
           this.value = fb.color;
         }
-      });
+      }).change();
     }
     else if (typeof fb.callback == 'function') {
       fb.callback.call(fb, fb.color);
