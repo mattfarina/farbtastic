@@ -510,7 +510,7 @@ $._farbtastic = function (container, options) {
     fb.linkTo(options.callback);
   }
   // Set to gray.
-  fb.setColor('#808080');
+  if (!fb.color) fb.setColor('#808080');
 }
 
 })(jQuery);
