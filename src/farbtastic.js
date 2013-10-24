@@ -98,7 +98,7 @@ $._farbtastic = function (container, options) {
       .find('div>*').css('position', 'absolute');
 
     // IE Fix: Recreate canvas elements with doc.createElement and excanvas.
-    $.browser.msie && $('canvas', container).each(function () {
+    typeof G_vmlCanvasManager != 'undefined' && $.browser.msie && $('canvas', container).each(function () {
       // Fetch info.
       var attr = { 'class': $(this).attr('class'), style: this.getAttribute('style') },
           e = document.createElement('canvas');
