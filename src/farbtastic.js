@@ -128,6 +128,13 @@ $._farbtastic = function (container, options) {
     fb.ctxMask = fb.cnvMask[0].getContext('2d');
     fb.cnvOverlay = $('.farbtastic-overlay', container);
     fb.ctxOverlay = fb.cnvOverlay[0].getContext('2d');
+
+    // Upscale for Retina screens
+    fb.devicePixelRatio = window.devicePixelRatio || 1;
+
+    fb.upscaleCanvas(fb.cnvMask[0]);
+    fb.upscaleCanvas(fb.cnvOverlay[0]);
+    
     fb.ctxMask.translate(fb.mid, fb.mid);
     fb.ctxOverlay.translate(fb.mid, fb.mid);
 
@@ -135,6 +142,33 @@ $._farbtastic = function (container, options) {
     fb.drawCircle();
     fb.drawMask();
   }
+
+  /**
+   * Retina support helper
+   */
+  fb.upscaleCanvas = function(cnv) {
+    var ctx = cnv.getContext('2d');
+    var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                            ctx.mozBackingStorePixelRatio ||
+                            ctx.msBackingStorePixelRatio ||
+                            ctx.oBackingStorePixelRatio ||
+                            ctx.backingStorePixelRatio || 1;
+
+    if (fb.devicePixelRatio !== backingStoreRatio) {
+      var ratio = fb.devicePixelRatio / backingStoreRatio;
+
+      var oldWidth = cnv.width;
+      var oldHeight = cnv.height;
+
+      cnv.width = oldWidth * ratio;
+      cnv.height = oldHeight * ratio;
+
+      cnv.style.width = oldWidth + 'px';
+      cnv.style.height = oldHeight + 'px';
+
+      ctx.scale(ratio, ratio);
+    }
+  };
 
   /**
    * Draw the color wheel.
