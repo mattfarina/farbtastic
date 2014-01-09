@@ -1,4 +1,4 @@
-// Farbtastic 2.0 alpha
+// Farbtastic 2.0.0-alpha.1
 (function ($) {
 
 var __debug = false;
