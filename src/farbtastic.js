@@ -499,6 +499,7 @@ $._farbtastic = function (container, options) {
    * Helper for returning coordinates relative to the center with touch event
    */
   fb.widgetCoordsTouch = function(event) {
+    event = event.originalEvent || event;
     return {
       x: event.targetTouches[0].pageX - fb.offset.left - fb.mid,    
       y: event.targetTouches[0].pageY - fb.offset.top - fb.mid
