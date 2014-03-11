@@ -36,7 +36,24 @@ $._farbtastic = function (container, options) {
     }
     else if (typeof callback == 'object' || typeof callback == 'string') {
       fb.callback = $(callback);
-      fb.callback.bind('keyup', fb.updateValue);
+        fb.callback.keypress(function (event) {
+            var val = $('#color').val();
+            if (val.length === 7) {
+                event.preventDefault();
+                return;
+            }
+            if (val.length === 0) {
+                if (event.which !== 35) {
+                    event.preventDefault();
+                    return;
+                } else {
+                    return;
+                }
+            }
+            if ((event.which < 48 || event.which > 57) && (event.which < 65 || event.which > 70) && (event.which < 97 || event.which > 102)) {
+                event.preventDefault();
+            }
+        }).keyup(fb.updateValue);
       if (fb.callback[0].value) {
         fb.setColor(fb.callback[0].value);
       }
