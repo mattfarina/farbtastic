@@ -489,6 +489,88 @@ $._farbtastic = function (container, options) {
     return [h, s, l];
   };
 
+  /* START TOUCH SUPPORT */
+  // Touch support
+  $.extend($.support, {
+    touch: 'ontouchend' in document
+  });
+
+  /**
+   * Helper for returning coordinates relative to the center with touch event
+   */
+  fb.widgetCoordsTouch = function(event) {
+    event = event.originalEvent || event;
+    return {
+      x: event.targetTouches[0].pageX - fb.offset.left - fb.mid,    
+      y: event.targetTouches[0].pageY - fb.offset.top - fb.mid
+    };    
+  }
+  
+  /**
+   * Handle the touchstart events
+   */
+  fb.touchHandleStart = function(event) {
+    // Ignore the event if another is already being handled
+    if (fb.touchHandled) {
+      return;
+    }
+
+    // Set the flag to prevent others from inheriting the touch event
+    fb.touchHandled = true;
+
+    // Track movement to determine if interaction was a click
+    fb._touchMoved = false;
+
+    // Update the stored offset for the widget.
+    fb.offset = $(container).offset();
+
+    // Check which area is being dragged
+    var pos = fb.widgetCoordsTouch(event);
+    fb.circleDrag = Math.max(Math.abs(pos.x), Math.abs(pos.y)) > (fb.square + 2);
+  }
+  
+  /**
+   * Handle the touchstart events
+   */
+  fb.touchHandleMove = function(event) {
+    // Ignore event if not handled
+    if (!fb.touchHandled) {
+      return;
+    }
+    event.preventDefault();
+
+    // Interaction was not a click
+    fb._touchMoved = true;
+
+    // Get coordinates relative to color picker center
+    var pos = fb.widgetCoordsTouch(event);
+
+    // Set new HSL parameters
+    if (fb.circleDrag) {
+      var hue = Math.atan2(pos.x, -pos.y) / 6.28;
+      fb.setHSL([(hue + 1) % 1, fb.hsl[1], fb.hsl[2]]);
+    } else {
+      var sat = Math.max(0, Math.min(1, -(pos.x / fb.square / 2) + .5));
+      var lum = Math.max(0, Math.min(1, -(pos.y / fb.square / 2) + .5));
+      fb.setHSL([fb.hsl[0], sat, lum]);
+    }
+
+  }
+  
+  /**
+   * Handle the touchstart events
+   */
+  fb.touchHandleEnd = function(event) {
+    // Ignore event if not handled
+    if (!fb.touchHandled) {
+      return;
+    }
+
+    // Unset the flag to allow other widgets to inherit the touch event
+    fb.touchHandled = false;
+  }
+  /* END TOUCH SUPPORT */
+
   // Parse options.
   if (!options.callback) {
     options = { callback: options };
@@ -504,6 +586,14 @@ $._farbtastic = function (container, options) {
 
   // Install mousedown handler (the others are set on the document on-demand)
   $('canvas.farbtastic-overlay', container).mousedown(fb.mousedown);
+
+  // Install touch handlers
+  if ($.support.touch) {
+    $('canvas.farbtastic-overlay', container).bind('touchstart', fb.touchHandleStart)
+                                             .bind('touchmove', fb.touchHandleMove)
+                                             .bind('touchend', fb.touchHandleEnd);
+    $(document).bind('touchcancel', fb.touchHandleEnd);
+  }
 
   // Set linked elements/callback
   if (options.callback) {
