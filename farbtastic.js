@@ -158,6 +158,7 @@ $._farbtastic = function (container, callback) {
     $(document).unbind('mousemove', fb.mousemove);
     $(document).unbind('mouseup', fb.mouseup);
     document.dragging = false;
+    fb.callback.val(fb.color);
   };
 
   /**
